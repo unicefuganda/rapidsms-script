@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% load uni_form_tags %}
+{% block title %}Create Script{% endblock %}
+
+
+  {% block content %}
+        {% if title %}
+       <h1>{{title}}</h1>
+        {%else%}
+        {%if script%}
+
+        <h1>Edit {{script.name}}</h1>
+        {%else%}
+        <h1>Create New Script</h1>
+        {%endif%}
+
+        {%endif%}
+        <table>
+
+        <form method="post">
+
+
+            {% uni_form form form.helper %}
+
+            {% csrf_token %}
+        </form>
+
+        </table>
+
+   {%endblock %}
