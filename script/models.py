@@ -8,13 +8,17 @@ from django.conf import settings
 from django.db import connection
 from script.signals import *
 from .managers import ProgressManager,ScriptProgressQuerySet
-from rapidsms.messages.incoming import IncomingMessage
-import difflib
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.template import Context, Template
+from .fields import JSONField
+
 
 class Script(models.Model):
+    SEQUENTIAL_SCRIPT=1
+    STATE_BASED=2
+    TYPICAL=3
+    POLL=4
     slug = models.SlugField(max_length=64, primary_key=True)
     name = models.CharField(max_length=128,
                             help_text="Human readable name.")
@@ -22,6 +26,8 @@ class Script(models.Model):
     objects = models.Manager()
     on_site = CurrentSiteManager('sites')
     enabled = models.BooleanField(default=True)
+    type = models.IntegerField(null=True,default=SEQUENTIAL_SCRIPT,choices=((SEQUENTIAL_SCRIPT,'sequential script'),(STATE_BASED,'stete based' )))
+    category=models.IntegerField(null=True,default=TYPICAL,choices=((TYPICAL,"typical"),(POLL,"poll")))
     def __unicode__(self):
         return "%s" % self.name
 
@@ -297,4 +303,13 @@ class Email(models.Model):
         message = message_template.render(ctxt)
         if message.strip():
             send_mail(subject, message, self.sender, recipients, fail_silently=False)
+
+class Transition(models.Model):
+    from_step=models.ForeignKey(ScriptStep,related_name="from",null=False)
+    to_step=models.ForeignKey(ScriptStep,related_name="to",null=False)
+    event=JSONField()
+
+from script.utils.transitions import handle_transitions
+script_progress_pre_change.connect(handle_transitions, weak=False)
+
 
