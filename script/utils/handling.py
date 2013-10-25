@@ -39,6 +39,7 @@ def find_closest_match(value, model, match_exact=False):
 
         model_names = model.values_list('name', flat=True)
         model_names_lower = [ai.lower() for ai in model_names]
+        # model_names_lower = [ai.lower().encode('utf-8') for ai in model_names]
         model_names_matches = difflib.get_close_matches(name_str.lower(), model_names_lower)
 
         ######
