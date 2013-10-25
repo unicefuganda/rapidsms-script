@@ -1,3 +1,5 @@
+# coding=utf-8
+
 __author__ = 'argha'
 from django.utils import unittest
 
@@ -15,3 +17,12 @@ class TestRegistrationHandling(unittest.TestCase):
         location.get = Mock(return_value=location)
         matched_values = find_closest_match(value_to_match, location)
         self.assertEquals(matched_values, location)
+
+    # WIP
+    # def test_should_match_strings_that_are_closest_possible_matches_in_arabic(self):
+    #     location = Location(name=u'أصدقاء')
+    #     value_to_match = u'أصدقاء'
+    #     location.values_list = Mock(return_value=[u'مصر', u'المغرب', u'الجزائر'])
+    #     location.get = Mock(return_value=location)
+    #     matched_values = find_closest_match(value_to_match, location)
+    #     self.assertEquals(matched_values, location)
