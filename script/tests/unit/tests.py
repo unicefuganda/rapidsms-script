@@ -18,11 +18,19 @@ class TestRegistrationHandling(unittest.TestCase):
         matched_values = find_closest_match(value_to_match, location)
         self.assertEquals(matched_values, location)
 
-    # WIP
-    # def test_should_match_strings_that_are_closest_possible_matches_in_arabic(self):
-    #     location = Location(name=u'أصدقاء')
-    #     value_to_match = u'أصدقاء'
-    #     location.values_list = Mock(return_value=[u'مصر', u'المغرب', u'الجزائر'])
-    #     location.get = Mock(return_value=location)
-    #     matched_values = find_closest_match(value_to_match, location)
-    #     self.assertEquals(matched_values, location)
+    def test_should_match_strings_that_are_closest_possible_matches_in_arabic(self):
+        location = Location(name=u'مصر')
+        value_to_match = u'مصر'
+        location.values_list = Mock(return_value=[u'مصر', u'المغرب', u'الجزائر'])
+        location.get = Mock(return_value=location)
+        matched_values = find_closest_match(value_to_match, location)
+        self.assertEquals(matched_values, location)
+
+    def test_should_match_strings_that_are_closest_possible_matches_in_french(self):
+        location = Location(name=u'Là Frêîçós')
+        value_to_match = u'Là Frêîçós'
+        location.values_list = Mock(return_value=[u'Brésil', u'Là Frêîçós', u'Israël'])
+        location.get = Mock(return_value=location)
+        matched_values = find_closest_match(value_to_match, location)
+        self.assertEquals(matched_values, location)
+
