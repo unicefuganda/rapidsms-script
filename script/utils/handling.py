@@ -8,7 +8,7 @@ from eav.models import Attribute
 
 def find_best_response(session, poll):
     resps = session.responses.filter(response__poll=poll, response__has_errors=False).order_by('-response__date')
-    if resps.count():
+    if resps.exists():
         resp = resps[0].response
         typedef = Poll.TYPE_CHOICES[poll.type]
         if typedef['db_type'] == Attribute.TYPE_TEXT:
@@ -29,7 +29,7 @@ def find_closest_match(value, model, match_exact=False):
         model_names_matches = difflib.get_close_matches(name_str, model_names_lower)
 
         if model_names_matches:
-            toret = model.get(name__iexact=model_names_matches[0])
+            toret = model.filter(name__iexact=model_names_matches[0])[0]
             return toret
     except Exception, exc:
             print traceback.format_exc(exc)
