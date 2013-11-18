@@ -2,23 +2,16 @@
 Basic tests for RapidSMS-Script
 """
 
-from django.test import TestCase, TransactionTestCase
-from django.test.client import Client
-from django.core.exceptions import ValidationError
-from django.contrib.sites.models import Site
-from rapidsms.models import Contact
+from django.test import TestCase
 from script.utils.incoming import incoming_progress
 from script.utils.outgoing import check_progress
 from script.models import *
-from script.signals import *
-from rapidsms.models import Contact, Connection, Backend
+from rapidsms.models import Connection, Backend
 from rapidsms.messages.incoming import IncomingMessage
 from rapidsms_httprouter.models import Message
 from django.contrib.auth.models import User
 from poll.models import Poll, Response
 from django.conf import settings
-from django.db import connection
-from django.db.models import Q
 import datetime
 
 class ModelTest(TestCase): #pragma: no cover
