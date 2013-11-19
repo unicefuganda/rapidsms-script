@@ -14,7 +14,7 @@ class TestRegistrationHandling(unittest.TestCase):
         location = Location(name='Juba')
         value_to_match = 'jubaaa'
         location.values_list = Mock(return_value=['Juba', 'Kampala'])
-        location.get = Mock(return_value=location)
+        location.filter = Mock(return_value=location)
         matched_values = find_closest_match(value_to_match, location)
         self.assertEquals(matched_values, location)
 
@@ -22,7 +22,7 @@ class TestRegistrationHandling(unittest.TestCase):
         location = Location(name=u'مصر')
         value_to_match = u'مصر'
         location.values_list = Mock(return_value=[u'مصر', u'المغرب', u'الجزائر'])
-        location.get = Mock(return_value=location)
+        location.filter = Mock(return_value=location)
         matched_values = find_closest_match(value_to_match, location)
         self.assertEquals(matched_values, location)
 
@@ -30,7 +30,7 @@ class TestRegistrationHandling(unittest.TestCase):
         location = Location(name=u'Là Frêîçós')
         value_to_match = u'Là Frêîçós'
         location.values_list = Mock(return_value=[u'Brésil', u'Là Frêîçós', u'Israël'])
-        location.get = Mock(return_value=location)
+        location.filter = Mock(return_value=location)
         matched_values = find_closest_match(value_to_match, location)
         self.assertEquals(matched_values, location)
 
