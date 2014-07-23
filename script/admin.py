@@ -1,14 +1,14 @@
 from django.contrib import admin
 from script.models import ScriptProgress,ScriptStep,Script
 
-class ScriptStepAdmin(admin.ModelAdmin):
+class ScriptStepInline(admin.TabularInline):
+    model = ScriptStep
     """script progress admin """
 class ScriptProgressAdmin(admin.ModelAdmin):
     """script progress admin """
 class ScriptAdmin(admin.ModelAdmin):
-    """script admin """
+    inlines = [ScriptStepInline]
 
 
 admin.site.register(ScriptProgress,ScriptProgressAdmin)
 admin.site.register(Script,ScriptAdmin)
-admin.site.register(ScriptStep,ScriptStepAdmin)
